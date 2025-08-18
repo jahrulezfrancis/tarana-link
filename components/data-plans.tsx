@@ -95,7 +95,7 @@ const DataPlans: React.FC = () => {
                                 <h3 className="text-xl font-semibold mb-4 text-center">
                                     {plan.provider.toUpperCase()} PLAN
                                 </h3>
-                                <div className="flex-grow space-y-3">
+                                <div className="flex-grow space-y-3 text-center">
                                     {plan.plans.map((item, index) => (
                                         <p key={index}>
                                             {item.data} — {item.price}{' '}
