@@ -1,569 +1,520 @@
 "use client"
 
+import React, { useEffect, useState } from 'react';
+import { Smartphone, Zap, Shield, Users, Star, ArrowRight, CheckCircle, Signal, Wifi, Clock, Globe, Lock, Award, TrendingUp, Eye, Heart, MessageCircle } from 'lucide-react';
+import DataPlans from '@/components/data-plans';
+import HeroSection from '@/components/hero-section';
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Smartphone, Zap, Shield, Users, Star, ArrowRight, CheckCircle, Clock, Signal, Wifi } from "lucide-react"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import DataPlans from "@/components/data-plans"
+export default function EnhancedHomePage() {
+  const [statsCount, setStatsCount] = useState({ users: 0, transactions: 0, uptime: 0 });
+  const [currentNetwork, setCurrentNetwork] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-export default function HomePage() {
+  const networks = [
+    { name: 'MTN', color: 'from-yellow-400 to-yellow-600' },
+    { name: 'Airtel', color: 'from-red-500 to-red-600' },
+    { name: 'Glo', color: 'from-green-500 to-green-600' },
+    { name: '9Mobile', color: 'from-blue-500 to-blue-600' }
+  ];
 
-  const [statsCount, setStatsCount] = useState({ users: 0, transactions: 0, uptime: 0 })
-  const [currentNetwork, setCurrentNetwork] = useState(0)
-
-  const networks = ['MTN', 'Airtel', 'Glo', '9Mobile']
+  const testimonials = [
+    "Lightning fast transactions!",
+    "Best rates in Nigeria",
+    "Never failed me once",
+    "Super reliable service"
+  ];
 
   useEffect(() => {
-    // Animate stats counter
+    setIsVisible(true);
+
     const animateStats = () => {
-      const targets = { users: 50000, transactions: 2500000, uptime: 99.9 }
-      const duration = 2000
-      const steps = 60
+      const targets = { users: 75000, transactions: 3500000, uptime: 99.9 };
+      const duration = 3000;
+      const steps = 60;
       const increment = {
         users: targets.users / steps,
         transactions: targets.transactions / steps,
         uptime: targets.uptime / steps
-      }
+      };
 
-      let current = { users: 0, transactions: 0, uptime: 0 }
-      let step = 0
+      let current = { users: 0, transactions: 0, uptime: 0 };
+      let step = 0;
 
       const timer = setInterval(() => {
         if (step < steps) {
-          current.users += increment.users
-          current.transactions += increment.transactions
-          current.uptime += increment.uptime
+          current.users += increment.users;
+          current.transactions += increment.transactions;
+          current.uptime += increment.uptime;
           setStatsCount({
             users: Math.floor(current.users),
             transactions: Math.floor(current.transactions),
             uptime: Math.min(current.uptime, 99.9)
-          })
-          step++
+          });
+          step++;
         } else {
-          clearInterval(timer)
+          clearInterval(timer);
         }
-      }, duration / steps)
-    }
+      }, duration / steps);
+    };
 
-    // Network rotation
     const networkTimer = setInterval(() => {
-      setCurrentNetwork(prev => (prev + 1) % networks.length)
-    }, 2000)
+      setCurrentNetwork(prev => (prev + 1) % networks.length);
+    }, 2500);
 
-    const timeout = setTimeout(animateStats, 1000)
+    const timeout = setTimeout(animateStats, 1000);
     return () => {
-      clearTimeout(timeout)
-      clearInterval(networkTimer)
-    }
-  }, [])
-
+      clearTimeout(timeout);
+      clearInterval(networkTimer);
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-background animate-fade-in">
-      {/* Header */}
-      <header className="border-b border-border bg-card/80 backdrop-blur-md sticky top-0 z-50 animate-slide-in-left">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Smartphone className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold text-foreground">TaranaLink</span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
-              Features
-            </Link>
-            <Link href="#networks" className="text-muted-foreground hover:text-foreground transition-colors">
-              Networks
-            </Link>
-            <Link href="#support" className="text-muted-foreground hover:text-foreground transition-colors">
-              Support
-            </Link>
-          </nav>
+    <div className="min-h-screen bg-slate-900">
+
+      {/* Enhanced Header */}
+      <header className="relative bg-slate-900/95 backdrop-blur-xl border-b border-white/10 top-0 z-50">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5"></div>
+        <div className="relative container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link href="/login">
-              <Button variant="ghost" size="sm">
-                Login
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button size="sm" className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
-                Sign Up
-              </Button>
-            </Link>
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Smartphone className="w-6 h-6 text-white" />
+            </div>
+            <span className="text-2xl font-black text-white">TaranaLink</span>
+          </div>
+
+          <nav className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-slate-300 hover:text-emerald-400 transition-all duration-300 font-medium hover:scale-105">Features</a>
+            <a href="#networks" className="text-slate-300 hover:text-emerald-400 transition-all duration-300 font-medium hover:scale-105">Networks</a>
+            <a href="#testimonials" className="text-slate-300 hover:text-emerald-400 transition-all duration-300 font-medium hover:scale-105">Reviews</a>
+            <a href="#support" className="text-slate-300 hover:text-emerald-400 transition-all duration-300 font-medium hover:scale-105">Support</a>
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <button className="text-slate-300 hover:text-white transition-colors duration-300 font-medium">
+              Login
+            </button>
+            <button className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-6 py-2 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+              Sign Up
+            </button>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-2 px-4 animate-fade-in">
-
-        <section className="relative overflow-hidden">
-          {/* Subtle Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-background to-blue-50/30"></div>
-          <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-gradient-to-bl from-emerald-100/30 to-transparent rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-gradient-to-tr from-blue-100/20 to-transparent rounded-full blur-3xl"></div>
-
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-              {/* Left Content Section */}
-              <div className="space-y-8">
-                {/* Status Badge */}
-                <div className="inline-flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-2">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-700 font-medium text-sm">🚀 Fast & Reliable Telecom Platform</span>
-                </div>
-
-                {/* Main Headlines */}
-                <div className="space-y-4">
-                  <h1 className="text-4xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight">
-                    Instant Topup
-                    <span className="block text-emerald-600">& Recharge</span>
-                    <span className="block text-slate-600">Made Simple</span>
-                  </h1>
-
-                  <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-                    Recharge airtime and buy data for <span className="text-emerald-600 font-semibold">all Nigerian networks</span> in seconds.
-                    Fast, secure, and reliable service you can trust.
-                  </p>
-                </div>
-
-                {/* Key Benefits */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="text-foreground font-medium">Instant Delivery</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="text-foreground font-medium">All Networks</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="text-foreground font-medium">Secure Payments</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    <span className="text-foreground font-medium">24/7 Support</span>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-[45%] cursor-pointer">
-                    <span className="flex items-center gap-2">
-                      Get Started
-                      <ArrowRight className="w-5 h-5" />
-                    </span>
-                  </Button>
-
-                  <Button variant="outline" size="lg" className="border-2 border-slate-200 hover:border-emerald-300 px-8 py-4 text-lg font-semibold transition-all duration-300 hover:text-shadow-amber-950 hover:bg-emerald-50">
-                    <span className="flex items-center gap-2">
-                      <Shield className="w-5 h-5" />
-                      Learn More
-                    </span>
-                  </Button>
-                </div>
-              </div>
-
-              {/* Right Image/Visual Section */}
-              <div className="relative">
-                {/* Main Visual Container */}
-                <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-border/20">
-
-                  {/* Phone Mockup */}
-                  <div className="bg-slate-900 rounded-2xl p-2 mx-auto max-w-sm">
-                    <div className="bg-background rounded-xl overflow-hidden">
-                      {/* Phone Header */}
-                      <div className="bg-emerald-600 px-6 py-4 text-white">
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold">TaranaLink</span>
-                          <div className="flex items-center gap-1">
-                            <Signal className="w-4 h-4" />
-                            <Wifi className="w-4 h-4" />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Phone Content */}
-                      <div className="p-6 space-y-6">
-                        {/* Network Selection */}
-                        <div className="space-y-3">
-                          <label className="text-sm font-medium text-muted-foreground">Select Network</label>
-                          <div className="grid grid-cols-2 gap-3">
-                            {['MTN', 'Airtel', 'Glo', '9Mobile'].map((network, index) => (
-                              <div
-                                key={network}
-                                className={`p-3 rounded-lg border-2 text-center transition-all duration-300 ${index === currentNetwork
-                                  ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                                  : 'border-border bg-muted/50'
-                                  }`}
-                              >
-                                <span className="font-medium text-sm">{network}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Amount Input */}
-                        <div className="space-y-3">
-                          <label className="text-sm font-medium text-muted-foreground">Amount</label>
-                          <div className="relative">
-                            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">₦</span>
-                            <input
-                              type="text"
-                              value="1,000"
-                              readOnly
-                              className="w-full pl-8 pr-4 py-3 border border-border rounded-lg bg-background"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Buy Button */}
-                        <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 font-semibold">
-                          <span className="flex items-center justify-center gap-2">
-                            <Zap className="w-4 h-4" />
-                            Buy Airtime
-                          </span>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Floating Success Notification */}
-                  <div className="absolute -top-4 -right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-bounce">
-                    <div className="flex items-center gap-2 text-sm font-medium">
-                      <CheckCircle className="w-4 h-4" />
-                      Recharge Successful!
-                    </div>
-                  </div>
-
-                  {/* Floating Features */}
-                  <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-border/20">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Clock className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <div>
-                        <div className="font-semibold text-sm">Instant Delivery</div>
-                        <div className="text-xs text-muted-foreground">30 seconds</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Background Decorations */}
-                <div className="absolute top-10 -right-10 w-20 h-20 bg-emerald-100 rounded-full opacity-60 animate-pulse"></div>
-                <div className="absolute -bottom-10 -left-10 w-16 h-16 bg-blue-100 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '1s' }}></div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        <div className=" mx-auto text-center mt-24 mb-12">
-          <h1 className="text-4xl md:text-4xl font-bold text-foreground mb-6 leading-tight animate-slide-in-left">
-            Fast Airtime & Data Purchases, <span className="text-primary">Anytime!</span>
-          </h1>
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-in-right">
-            Recharge your phone instantly with our secure platform. Support for all major Nigerian networks - MTN,
-            Airtel, Glo, and 9Mobile.
-          </p>
-
-          {/* Quick Buy Section */}
-          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-12">
-            <Link href="/dashboard/buy-airtime">
-              <Card className="group cursor-pointer card-hover border-2 hover:border-primary/30 animate-slide-in-left">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-all duration-300 group-hover:scale-110">
-                    <Smartphone className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Buy Airtime</h3>
-                  <p className="text-muted-foreground mb-4">Instant airtime recharge for all networks</p>
-                  <ArrowRight className="w-5 h-5 text-primary mx-auto group-hover:translate-x-2 transition-transform duration-300" />
-                </CardContent>
-              </Card>
-            </Link>
-
-            <Link href="/dashboard/buy-data">
-              <Card className="group cursor-pointer card-hover border-2 hover:border-accent/30 animate-slide-in-right">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-accent/20 transition-all duration-300 group-hover:scale-110">
-                    <Zap className="w-8 h-8 text-accent" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Buy Data</h3>
-                  <p className="text-muted-foreground mb-4">Affordable data plans for all networks</p>
-                  <ArrowRight className="w-5 h-5 text-accent mx-auto group-hover:translate-x-2 transition-transform duration-300" />
-                </CardContent>
-              </Card>
-            </Link>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Trust Section - Nigerian Telecom Logos */}
-      <section className="py-8 px-4 bg-muted/20 animate-fade-in">
-        <div className="container mx-auto text-center">
-          <h2 className="text-2xl font-semibold mb-8 text-foreground">Trusted by hundreds across Nigeria</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
-            <div className="flex flex-col items-center gap-3 animate-slide-in-left">
-              <div className="w-16 h-16 bg-gradient-to-br from-yellow-400/80 to-yellow-500/80 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <span className="font-bold text-yellow-900 text-lg">MTN</span>
-              </div>
-              <span className="text-sm text-muted-foreground">MTN Nigeria</span>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-slide-in-left" style={{ animationDelay: "0.1s" }}>
-              <div className="w-16 h-16 bg-gradient-to-br from-red-500/80 to-red-600/80 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <span className="font-bold text-white text-lg">Airtel</span>
-              </div>
-              <span className="text-sm text-muted-foreground">Airtel Nigeria</span>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-slide-in-right" style={{ animationDelay: "0.2s" }}>
-              <div className="w-16 h-16 bg-gradient-to-br from-green-500/80 to-green-600/80 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <span className="font-bold text-white text-lg">Glo</span>
-              </div>
-              <span className="text-sm text-muted-foreground">Globacom</span>
-            </div>
-            <div className="flex flex-col items-center gap-3 animate-slide-in-right" style={{ animationDelay: "0.3s" }}>
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500/80 to-blue-600/80 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <span className="font-bold text-white text-sm">9Mobile</span>
-              </div>
-              <span className="text-sm text-muted-foreground">9Mobile</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section id="features" className="py-20 px-4 animate-fade-in">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 animate-slide-in-left">
-              Why Choose TaranaLink?
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto animate-slide-in-right">
-              Experience the fastest and most secure way to recharge your phone
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="text-center border-2 hover:border-primary/30 card-hover animate-slide-in-left">
-              <CardHeader>
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:bg-primary/20 hover:scale-110">
-                  <Zap className="w-8 h-8 text-primary" />
-                </div>
-                <CardTitle>Instant Recharge</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">
-                  Get your airtime and data instantly. No waiting, no delays - just immediate top-up to your phone.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card
-              className="text-center border-2 hover:border-accent/30 card-hover animate-scale-in"
-              style={{ animationDelay: "0.1s" }}
-            >
-              <CardHeader>
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:bg-accent/20 hover:scale-110">
-                  <Shield className="w-8 h-8 text-accent" />
-                </div>
-                <CardTitle>100% Secure</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">
-                  Your transactions are protected with bank-level security. Safe payments guaranteed.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card
-              className="text-center border-2 hover:border-secondary/30 card-hover animate-slide-in-right"
-              style={{ animationDelay: "0.2s" }}
-            >
-              <CardHeader>
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:bg-secondary/20 hover:scale-110">
-                  <Users className="w-8 h-8 text-secondary" />
-                </div>
-                <CardTitle>24/7 Support</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base">
-                  Our customer support team is always ready to help you with any issues or questions.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Data plans section */}
-      <div className="">
-        <DataPlans />
+      <div>
+        <HeroSection />
       </div>
 
-
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 bg-muted/20 animate-fade-in">
-        <div className="container mx-auto">
+      {/* Enhanced Trust Section */}
+      <section className="relative py-20 bg-gradient-to-r from-slate-800 to-slate-900 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5"></div>
+        <div className="relative container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 animate-slide-in-left">
-              What Our Users Say
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Powering <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">All Networks</span>
             </h2>
-            <p className="text-xl text-muted-foreground animate-slide-in-right">
-              Join thousands of satisfied customers
-            </p>
+            <p className="text-slate-300 text-xl">Seamless integration with every major Nigerian carrier</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="card-hover animate-slide-in-left">
-              <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "TaranaLink has made my life so much easier. I can top up my phone anytime, anywhere!"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-semibold text-primary">AO</span>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            {[
+              { name: 'MTN', gradient: 'from-yellow-400 to-yellow-600', delay: '0s' },
+              { name: 'Airtel', gradient: 'from-red-500 to-red-600', delay: '0.2s' },
+              { name: 'Glo', gradient: 'from-green-500 to-green-600', delay: '0.4s' },
+              { name: '9Mobile', gradient: 'from-blue-500 to-blue-600', delay: '0.6s' }
+            ].map((network, index) => (
+              <div
+                key={network.name}
+                className="group text-center"
+                style={{ animationDelay: network.delay }}
+              >
+                <div className={`relative w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${network.gradient} rounded-2xl shadow-2xl group-hover:shadow-3xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+                  <div className="absolute inset-0 bg-white/20 rounded-2xl group-hover:bg-white/30 transition-all duration-300"></div>
+                  <div className="relative flex items-center justify-center h-full">
+                    <span className="font-black text-white text-lg">{network.name}</span>
                   </div>
-                  <div>
-                    <p className="font-semibold text-sm">Adebayo Ogundimu</p>
-                    <p className="text-xs text-muted-foreground">Lagos, Nigeria</p>
-                  </div>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${network.gradient} rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-300`}></div>
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="card-hover animate-scale-in" style={{ animationDelay: "0.1s" }}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
+                <div className="text-slate-400 font-medium group-hover:text-white transition-colors duration-300">
+                  {network.name === '9Mobile' ? '9Mobile' : `${network.name} Nigeria`}
                 </div>
-                <p className="text-muted-foreground mb-4">
-                  "Fast, reliable, and secure. I've been using TaranaLink for months without any issues."
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-semibold text-accent">FI</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm">Fatima Ibrahim</p>
-                    <p className="text-xs text-muted-foreground">Abuja, Nigeria</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="card-hover animate-slide-in-right" style={{ animationDelay: "0.2s" }}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  "The best recharge platform I've used. Great prices and instant delivery every time."
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center">
-                    <span className="text-sm font-semibold text-secondary">CE</span>
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm">Chidi Eze</p>
-                    <p className="text-xs text-muted-foreground">Port Harcourt, Nigeria</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-card border-t border-border py-12 px-4 animate-fade-in">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Smartphone className="w-5 h-5 text-primary-foreground" />
+      {/* Enhanced Features Section */}
+      <section id="features" className="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className="relative container mx-auto px-4">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
+              Why Choose <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">TaranaLink?</span>
+            </h2>
+            <p className="text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+              Experience the cutting-edge of mobile recharging technology
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                icon: Zap,
+                title: "Lightning Fast",
+                description: "Average transaction time of 2.1 seconds. Experience instant gratification with every recharge.",
+                gradient: "from-yellow-400 to-orange-500",
+                bgGradient: "from-yellow-500/20 to-orange-500/20",
+                delay: "0s"
+              },
+              {
+                icon: Shield,
+                title: "Military Grade Security",
+                description: "Bank-level encryption and advanced fraud protection keep your transactions 100% secure.",
+                gradient: "from-emerald-400 to-green-500",
+                bgGradient: "from-emerald-500/20 to-green-500/20",
+                delay: "0.2s"
+              },
+              {
+                icon: Users,
+                title: "24/7 Premium Support",
+                description: "Dedicated support team ready to assist you anytime. Real humans, real solutions.",
+                gradient: "from-blue-400 to-purple-500",
+                bgGradient: "from-blue-500/20 to-purple-500/20",
+                delay: "0.4s"
+              }
+            ].map((feature, index) => (
+              <div
+                key={index}
+                className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
+                style={{ animationDelay: feature.delay }}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+
+                <div className="relative">
+                  <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                    <feature.icon className="w-8 h-8 text-white" />
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 group-hover:bg-clip-text transition-all duration-300">
+                    {feature.title}
+                  </h3>
+
+                  <p className="text-slate-300 text-lg leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
+                    {feature.description}
+                  </p>
                 </div>
-                <span className="text-xl font-bold text-foreground">TaranaLink</span>
               </div>
-              <p className="text-muted-foreground text-sm">
-                Nigeria's fastest and most reliable airtime and data recharge platform.
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced Data Plans Section */}
+      <section >
+        <DataPlans />
+      </section>
+
+      {/* Enhanced Testimonials Section */}
+      <section id="testimonials" className="relative py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }}></div>
+        </div>
+
+        <div className="relative container mx-auto px-4">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-6">
+              <span className="bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Love Stories
+              </span> From Our Users
+            </h2>
+            <p className="text-2xl text-slate-300 max-w-3xl mx-auto">
+              Join 75,000+ satisfied customers who trust TaranaLink
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                rating: 5,
+                text: "TaranaLink has completely transformed how I manage my phone credit. The speed is incredible - I get my airtime in literally 2 seconds!",
+                name: "Adebayo Ogundimu",
+                location: "Lagos, Nigeria",
+                avatar: "AO",
+                gradient: "from-emerald-500 to-blue-600",
+                delay: "0s"
+              },
+              {
+                rating: 5,
+                text: "I've been using TaranaLink for over a year now. Never had a single failed transaction. The reliability is unmatched in Nigeria!",
+                name: "Fatima Ibrahim",
+                location: "Abuja, Nigeria",
+                avatar: "FI",
+                gradient: "from-purple-500 to-pink-600",
+                delay: "0.2s"
+              },
+              {
+                rating: 5,
+                text: "Best rates, instant delivery, and amazing customer support. TaranaLink is hands down the best recharge platform I've ever used.",
+                name: "Chidi Eze",
+                location: "Port Harcourt, Nigeria",
+                avatar: "CE",
+                gradient: "from-blue-500 to-purple-600",
+                delay: "0.4s"
+              }
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                className="group relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
+                style={{ animationDelay: testimonial.delay }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                <div className="relative">
+                  {/* Rating Stars */}
+                  <div className="flex items-center gap-1 mb-6">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+
+                  {/* Quote Icon */}
+                  <div className="w-12 h-12 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <MessageCircle className="w-6 h-6 text-white" />
+                  </div>
+
+                  {/* Testimonial Text */}
+                  <p className="text-white text-lg leading-relaxed mb-8 group-hover:text-slate-100 transition-colors duration-300">
+                    "{testimonial.text}"
+                  </p>
+
+                  {/* User Info */}
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${testimonial.gradient} rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <span className="text-white font-bold text-sm">{testimonial.avatar}</span>
+                    </div>
+                    <div>
+                      <div className="font-bold text-white text-lg">{testimonial.name}</div>
+                      <div className="text-slate-400 text-sm">{testimonial.location}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="flex justify-center items-center gap-8 mt-16 pt-16 border-t border-white/10">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-emerald-400 mb-2">4.9/5</div>
+              <div className="text-slate-400">Average Rating</div>
+            </div>
+            <div className="w-px h-12 bg-white/20"></div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-400 mb-2">10k+</div>
+              <div className="text-slate-400">Reviews</div>
+            </div>
+            <div className="w-px h-12 bg-white/20"></div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-400 mb-2">99.9%</div>
+              <div className="text-slate-400">Success Rate</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced CTA Section */}
+      <section className="relative py-24 bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-3 h-3 bg-white/20 rounded-full animate-bounce"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${2 + Math.random() * 3}s`
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="relative container mx-auto px-4 text-center">
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-8">
+            Ready to Experience the <span className="text-yellow-300">Future?</span>
+          </h2>
+          <p className="text-2xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Join thousands of Nigerians who have already revolutionized their mobile experience
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <button className="group relative px-12 py-6 bg-white text-slate-900 rounded-2xl font-black text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-white to-slate-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="relative flex items-center gap-4">
+                Start Recharging Now
+                <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+              </span>
+            </button>
+
+            <button className="group px-12 py-6 bg-white/10 backdrop-blur-sm border-2 border-white/30 rounded-2xl font-black text-xl text-white hover:bg-white/20 transition-all duration-300">
+              <span className="flex items-center gap-4">
+                <Eye className="w-6 h-6" />
+                Watch Demo
+              </span>
+            </button>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {[
+              { icon: Zap, text: "2.1s Average Speed" },
+              { icon: Shield, text: "Bank-Level Security" },
+              { icon: Award, text: "Award Winning" },
+              { icon: Heart, text: "99.9% Success Rate" }
+            ].map((feature, index) => (
+              <div key={index} className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300">
+                <feature.icon className="w-6 h-6 text-white" />
+                <span className="text-white font-bold">{feature.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced Footer */}
+      <footer className="relative bg-slate-900 border-t border-white/10 py-16">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5"></div>
+
+        <div className="relative container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-12 mb-16">
+
+            {/* Brand Section */}
+            <div className="md:col-span-1">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <Smartphone className="w-7 h-7 text-white" />
+                </div>
+                <span className="text-3xl font-black text-white">TaranaLink</span>
+              </div>
+              <p className="text-slate-400 text-lg leading-relaxed mb-6">
+                Nigeria's most trusted and fastest mobile recharge platform. Powering connections across the nation.
               </p>
+
+              {/* Social Stats */}
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-emerald-400">75k+</div>
+                  <div className="text-slate-500 text-sm">Users</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">99.9%</div>
+                  <div className="text-slate-500 text-sm">Uptime</div>
+                </div>
+              </div>
             </div>
 
+            {/* Services */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Services</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/dashboard/buy-airtime" className="hover:text-foreground transition-colors">
-                    Buy Airtime
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/buy-data" className="hover:text-foreground transition-colors">
-                    Buy Data
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/dashboard/transactions" className="hover:text-foreground transition-colors">
-                    Transaction History
-                  </Link>
-                </li>
+              <h3 className="font-black text-white text-xl mb-6">Services</h3>
+              <ul className="space-y-4">
+                {[
+                  'Buy Airtime',
+                  'Buy Data Plans',
+                  'Transaction History',
+                  'Bulk Purchases',
+                  'API Integration'
+                ].map((service, index) => (
+                  <li key={index}>
+                    <a href="#" className="text-slate-400 hover:text-emerald-400 transition-colors duration-300 flex items-center gap-2 group">
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      {service}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
+            {/* Support */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Support</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <Link href="/help" className="hover:text-foreground transition-colors">
-                    Help Center
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="hover:text-foreground transition-colors">
-                    Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/faq" className="hover:text-foreground transition-colors">
-                    FAQ
-                  </Link>
-                </li>
+              <h3 className="font-black text-white text-xl mb-6">Support</h3>
+              <ul className="space-y-4">
+                {[
+                  'Help Center',
+                  'Contact Support',
+                  'FAQ',
+                  'Security',
+                  'System Status'
+                ].map((item, index) => (
+                  <li key={index}>
+                    <a href="#" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 flex items-center gap-2 group">
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                      {item}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
+            {/* Contact */}
             <div>
-              <h3 className="font-semibold text-foreground mb-4">Contact</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>Email: support@taranalink.ng</li>
-                <li>Phone: +234 800 123 4567</li>
-                <li>Address: Lagos, Nigeria</li>
-              </ul>
+              <h3 className="font-black text-white text-xl mb-6">Get in Touch</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-slate-400">
+                  <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                    <MessageCircle className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">Email</div>
+                    <div>support@taranalink.ng</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-400">
+                  <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                    <Smartphone className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">Phone</div>
+                    <div>+234 800 123 4567</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 text-slate-400">
+                  <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                    <Globe className="w-5 h-5 text-purple-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">Location</div>
+                    <div>Lagos, Nigeria</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 TaranaLink. All rights reserved.</p>
+          {/* Bottom Bar */}
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-slate-400 text-center md:text-left">
+              <p>&copy; 2024 TaranaLink. All rights reserved. Powering Nigeria's mobile future.</p>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">Privacy Policy</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">Terms of Service</a>
+              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">Security</a>
+            </div>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
